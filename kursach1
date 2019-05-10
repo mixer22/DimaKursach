@@ -1,0 +1,101 @@
+#include <iostream>
+using namespace std;
+
+class Subject{
+public:
+    char *secondName; // фамилия (принимает любую строку в параметре конструкторгш
+    char sex; // пол (принимает один символ (предполагается английская "M" или "F") в параметре конструктора)
+    int birthYear; // год рождения (принимает любое число в параметре конструктора)
+    char *homeAddress; // домашний адрес (принимает любую строку в параметре конструктора)
+
+    Subject(char *_secondName, char _sex, int _birthYear, char *_homeAddress) // конструктор с параметрами (для инициализации объектов)
+    {
+        secondName = _secondName;
+        sex = _sex;
+        birthYear = _birthYear;
+        homeAddress = _homeAddress;
+    }
+    Subject(){} // конструктор без параметров для объявления массива
+    void printSub(); // объявляем функцию вывода на экран данных по субъекту
+    void changeAddress(char *newAddress); // объявляем функцию смены адреса
+};
+
+void Subject::changeAddress(char *newAddress) // инициализируем функцию смены адреса
+{
+    homeAddress = newAddress; // присваеваем субъекту новый адрес
+}
+
+void Subject::printSub() // инициализируем функцию вывода на экран данных по субъекту
+{
+    cout << "Фамилия: " << secondName << endl;
+    cout << "Пол: " << sex << endl;
+    cout << "Год рождения: " << birthYear << endl;
+    cout << "Домашний адрес: " << homeAddress << endl;
+    cout << "____________________________" << endl; // просто разграничиваем вывод информации
+}
+
+void findByName(Subject subs[], int n, char *_secondName) // функция для поиска человека по фамилии (в параметры передаем массив субъектов, их кол-во и фамилию, по которой надо искать)
+{
+    cout << "Поиск человека по фамилии... " << endl;
+    bool isFound = false; // найден/не найден
+   for (int i = 0; i < n; i++) // проверяем все субъекты на совпадение фамилий
+   {
+       if (subs[i].secondName == _secondName)  // если совпала, то выводим на экран информацию о субъекте и завершаем цикл
+       {
+           subs[i].printSub();
+           isFound = true; // меняем значение переменной на "Найден"
+           break; // завершаем цикл
+       }
+   }
+   if (!isFound) // если не найден
+       cout << "Такой человек не найден" << endl; // то печатаем сообщение
+}
+
+void findByYear(Subject subs[], int n, int year) // функция для поиска человека по году рождения (в параметры передаем массив субъектов, их кол-во и год рождения, по которому надо искать)
+{
+    cout << "Поиск человека " << year << " года рождения" << endl;
+    bool isFound = false; // найден/не найден
+    for (int i = 0; i < n; i++) // цикл работает по аналогии с поиском по фамилии (смотри выше)
+    {
+        if (subs[i].birthYear == year)
+        {
+            subs[i].printSub();
+            isFound = true;
+            break;
+        }
+    }
+    if (!isFound)
+        cout << "Такой человек не найден" << endl;
+}
+
+void findRetirees(Subject subs[], int n)
+{
+    bool isFound = false;
+    cout << "Поиск пенсионеров... " << endl;
+    for (int i = 0; i < n; i++) // цикл работает по аналогии с циклами выше (смотри выше)
+    {
+        if (subs[i].sex == 'M' && 2019 - subs[i].birthYear >= 65) // если человек мужского пола в возрасте от 65 лет (на 2019 год), то выводим его данные
+        {
+            subs[i].printSub();
+            isFound = true;
+        }
+        else if (subs[i].sex == 'F' && 2019 - subs[i].birthYear >= 60) // если человек женского пола в возрасте от 60 лет (на 2019 год), то выводим его данные
+        {
+            subs[i].printSub();
+            isFound = true;
+        }
+    }
+    if (!isFound)
+        cout << "Пенсионеров нет" << endl;
+}
+
+int main() {
+    const int n = 2; // задаем кол-во субъектов в массиве
+    Subject subjects[n] = { Subject("Ivanov", 'M', 2001, "Pushkina 21"), Subject("Goncharova", 'F', 1953, "Lenina 391") }; // создаем массив объектов нашего класса (субъектов) и через запятую инициализируем заданное кол-во
+    subjects[0].changeAddress("Kolotushkina 22"); // меняем домашний адрес первого субъекта
+    subjects[0].printSub(); // выводим на экран данные первого субъекта
+    findByName(subjects, n, "Goncharova"); // ищем человека по фамилии
+    findByYear(subjects, n, 2001); // ищем человека по году рождения
+    findRetirees(subjects, n); // ищем пенсионеров
+    return 0;
+}
