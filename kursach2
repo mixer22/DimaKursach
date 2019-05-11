@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+class Participant{ // класс "участник"
+public:
+    char *secondName; // фамилия (принимает любую строку в параметре конструкторгш
+    int number; // номер секции (принимает любое число в параметре конструктора)
+    char *scientificRank; // ученое звание (принимает любую строку в параметре конструктора)
+    char *topicReport; // тема доклада (принимает любую строку в параметре конструктора)
+    Participant(int _number, char *_secondName, char *_scientificRank, char *_topicReport) // конструктор с параметрами (для инициализации объектов)
+    {
+        secondName = _secondName;
+        scientificRank = _scientificRank;
+        topicReport = _topicReport;
+        number = _number;
+    }
+    Participant(){} // конструктор без параметров
+    void printParticipant(); // объявляем функцию вывода на экран данных участника
+};
+
+void Participant::printParticipant() // инициализируем функцию вывода на экран данных участника
+{
+    cout << "Участник: " << endl;
+    cout << "Фамилия: " << secondName << endl; // выводим фамилию на экран
+    cout << "Начное звание: " << scientificRank << endl; // выводим начную степень
+    cout << "Номер секции: " << number << endl; // выводим номер секции
+    cout << "Тема доклада: " << topicReport << endl; // выводим тему доклада
+    cout << "______________________________" << endl; // просто разграничиваем вывод информации
+}
+
+void findByName(Participant partics[], int n, char *_secondName) // функция для поиска человека по фамилии (в параметры передаем массив субъектов, их кол-во и фамилию, по которой надо искать)
+{
+    cout << "Поиск человека по фамилии... " << endl;
+    bool isFound = false; // найден/не найден
+    for (int i = 0; i < n; i++) // проверяем всех участников на совпадение фамилий
+    {
+        if (partics[i].secondName == _secondName)  // если совпала, то выводим на экран информацию о субъекте и завершаем цикл
+        {
+            partics[i].printParticipant();
+            isFound = true; // меняем значение переменной на "Найден"
+            break; // завершаем цикл
+        }
+    }
+    if (!isFound) // если не найден
+        cout << "Такой человек не найден" << endl; // то печатаем сообщение
+}
+
+void printAll(Participant partics[], int n) // функция вывода на экран списка всех участников (в параметры передаем массив участников и их кол-во)
+{
+    cout << "Все участники: " << endl;
+    bool isFound = false; // булева переменная найден/не найден
+    for (int i = 0; i < n; i++) // цикл выводит фамилию всех участников
+    {
+        cout << partics[i].secondName << endl;
+        isFound = true;
+    }
+    if (!isFound) // если участников нет, то выводим сообщение
+        cout << "Участников нет" << endl;
+    cout << "______________________________" << endl; // просто разграничиваем вывод информации
+}
+
+void printSection(Participant partics[], int n) // функция вывода на экран списка всех участников конкретной секции (в параметры передаем массив участников, их кол-во и номер секции, по которой надо искать)
+{
+    cout << "Введите номер секции" << endl;
+    int numberSection = 0;
+    bool isFound = false; // булева переменная найден/не найден
+    cin >> numberSection;
+    cout << "Все участники " << numberSection << " секции: " << endl;
+    for (int i = 0; i < n; i++) // цикл проверяет все объекты (участники) на совпадение номера секции
+        if (partics[i].number == numberSection)
+        {
+            cout << partics[i].secondName << endl;
+            isFound = true;
+        }
+    if (!isFound) // если участников такой секции нет, то выводим сообщение
+        cout << "Участников данной секции не найдено" << endl;
+    cout << "______________________________" << endl; // просто разграничиваем вывод информации
+}
+
+int main() { // главная функция
+    const int n = 2; // задаем кол-во субъектов в массиве
+    Participant participants[n] = { Participant(1, "Ivanov", "Docent", "C++ OOP"), Participant(2, "Vanteeva", "Doctor nauk", "Python OOP") }; // создаем массив объектов нашего класса (участников) и через запятую инициализируем заданное кол-во
+    printAll(participants,n); // выводим список всех участников на экран
+    findByName(participants, n, "Vanteeva"); // выводим данные по конкретному участнику (в параметре пишем фамилию
+    printSection(participants, n); // выводим список всех участников конкертной секции (ввод с клавиатуры)
+    return 0;
+}
