@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+class Student{ // класс "студент"
+public:
+    char *name; // имя (принимает любую строку в параметре конструктора)
+    int number; // номер курса (принимает любое число в параметре конструктора)
+    char sex; // пол (принимает M или F в параметре конструктора)
+    Student(char *_name, int _number, char _sex) // конструктор с параметрами (для инициализации объектов)
+    {
+        name = _name;
+        number = _number;
+        sex = _sex;
+    }
+    Student(){} // конструктор без параметров
+    void printStudent(); // объявляем функцию вывода на экран данных студента
+    void changeName(); // объявляем функцию смены имени студента
+    void changeNumber(); // объявляем функцию смены номера курса студента
+    void changeSex(); // объявляем функцию смены пола студента
+};
+
+void Student::printStudent() // инициализируем функцию вывода на экран данных студента
+{
+    cout << "Студент: " << endl;
+    cout << "Имя: " << name << endl; // выводим имя на экран
+    cout << "Пол: " << sex << endl; // выводим пол
+    cout << "Курс: " << number << endl; // выводим номер курса
+    cout << "______________________________" << endl; // просто разграничиваем вывод информации
+}
+
+void Student::changeName() // функция смены имени студента
+{
+    char *newName = new char[128]; // переменная для нового имени
+    cout << "Новое имя для " << name << endl;
+    scanf("%s",newName);
+    name = newName;
+}
+
+void Student::changeNumber() // функция смены номера курса студента
+{
+    int newNumber = 0;
+    cout << "Смените номер курса с " << number << " на ";
+    cin >> newNumber;
+    number = newNumber;
+}
+
+void Student::changeSex() // функция смены пола студента
+{
+    char newSex;
+    cout << "Смените пол студента с " << sex << " на ";
+    cin >> newSex;
+    sex = newSex;
+}
+
+void printSection(Student studs[], int n) // функция вывода на экран списка всех студентов определенного курса (в параметры передаем массив участников и их кол-во)
+{
+    cout << "Введите номер курса" << endl;
+    int numberSection = 0;
+    bool isFound = false; // булева переменная найден/не найден
+    cin >> numberSection;
+    cout << "Все студенты " << numberSection << " курса: " << endl;
+    for (int i = 0; i < n; i++) // цикл проверяет все объекты (студенты) на совпадение номера курса
+        if (studs[i].number == numberSection)
+        {
+            studs[i].printStudent();
+            isFound = true;
+        }
+    if (!isFound) // если студентов такого курса нет, то выводим сообщение
+        cout << "Студентов не найдено" << endl;
+}
+
+int main() { // главная функция
+    setlocale(LC_ALL, "Russian");
+    const int n = 3; // задаем кол-во объектов в массиве
+    Student students[n] = { Student("Ivanov", 2, 'M'), Student("Vanteeva", 1, 'F'), Student("Savelev", 1, 'M') }; // создаем массив объектов нашего класса (студентов) и через запятую инициализируем заданное кол-во
+    students[0].changeName(); // меняем имя первого первого студента
+    students[0].printStudent(); // выводим его данные на экран
+    students[1].changeNumber(); // меняем номер курса второго студента
+    students[1].printStudent(); // выводим его данные на экран
+    students[2].changeSex(); // меняем пол третьего студента
+    students[2].printStudent(); // выводим его данные на экран
+    printSection(students, n); // выводим данные всех студентов курса (ввод с клавиатуры)
+    system("pause");
+    return 0;
+}
