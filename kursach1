@@ -90,6 +90,7 @@ void findRetirees(Subject subs[], int n)
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     const int n = 2; // задаем кол-во субъектов в массиве
     Subject subjects[n] = { Subject("Ivanov", 'M', 2001, "Pushkina 21"), Subject("Goncharova", 'F', 1953, "Lenina 391") }; // создаем массив объектов нашего класса (субъектов) и через запятую инициализируем заданное кол-во
     subjects[0].changeAddress("Kolotushkina 22"); // меняем домашний адрес первого субъекта
@@ -97,5 +98,6 @@ int main() {
     findByName(subjects, n, "Goncharova"); // ищем человека по фамилии
     findByYear(subjects, n, 2001); // ищем человека по году рождения
     findRetirees(subjects, n); // ищем пенсионеров
+    system("pause");
     return 0;
 }
