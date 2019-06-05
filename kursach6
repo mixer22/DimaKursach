@@ -110,6 +110,7 @@ void findRetirees(Subject subs[], int n)
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     bool exit = false;
     int n = 0;
     Subject subjects[100]; // создаем массив объектов нашего класса (субъектов)
